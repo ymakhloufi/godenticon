@@ -1,4 +1,4 @@
-package ydenticon
+package godenticon
 
 import (
 	"crypto/sha256"
@@ -48,18 +48,18 @@ func GetComplexityLevel(level int) (ArtifactDimension, error) {
 	return levels[index], nil
 }
 
-type Ydenticon struct {
+type Godenticon struct {
 	Identifier                       string
 	hashByteArray                    [32]byte
 	canvasBitSlice                   []bool
 	foregroundColor, backgroundColor color.RGBA
 }
 
-func New(identifier string) *Ydenticon {
+func New(identifier string) *Godenticon {
 	hashByteArray := sha256.Sum256([]byte(identifier))
 	foregroundColor, backgroundColor := getColorsFromBytes(hashByteArray[0], hashByteArray[1], hashByteArray[2])
 
-	return &Ydenticon{
+	return &Godenticon{
 		Identifier:      identifier,
 		hashByteArray:   hashByteArray,
 		canvasBitSlice:  byteSliceToBoolSlice(hashByteArray[3:]),
@@ -80,7 +80,7 @@ func getColorsFromBytes(r, g, b byte) (foregroundColor color.RGBA, backgroundCol
 	return foregroundColor, backgroundColor
 }
 
-func (i Ydenticon) Make(dimension ArtifactDimension, widthInPx uint) (*image.RGBA, error) {
+func (i Godenticon) Make(dimension ArtifactDimension, widthInPx uint) (*image.RGBA, error) {
 	cols, rows := int(dimension), int(dimension) // slightly redundant, but we might want non-square-shaped images later.
 	artifactSizeInPx := int(math.Ceil(float64(widthInPx) / float64(dimension)))
 	canvasPtr := image.NewRGBA(

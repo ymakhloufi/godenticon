@@ -1,4 +1,4 @@
-package ydenticon
+package godenticon
 
 import (
 	"image/color"

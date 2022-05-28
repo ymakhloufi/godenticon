@@ -1,4 +1,4 @@
-module github.com/ymakhloufi/ydenticon
+module github.com/ymakhloufi/godenticon
 
 go 1.15
 

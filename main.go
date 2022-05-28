@@ -8,8 +8,7 @@ import (
 
 	"github.com/docopt/docopt-go"
 	log "github.com/sirupsen/logrus"
-
-	"github.com/ymakhloufi/ydenticon/ydenticon"
+	"github.com/ymakhloufi/godenticon/pkg/godenticon"
 )
 
 func init() {
@@ -35,11 +34,11 @@ func main() {
 	log.Infof("Complexity:        %d x %d artifacts", artifactDimension, artifactDimension)
 	log.Infof("Image Dimensions:  %d x %d Pixels", widthInPx, widthInPx)
 
-	log.Debug("Creating Ydenticon object")
-	ydenticonObj := ydenticon.New(identifier)
+	log.Debug("Creating Identicon object")
+	identiconObj := godenticon.New(identifier)
 
 	log.Debugf("Writing output to %s", outputFilePtr.Name())
-	img, err := ydenticonObj.Make(artifactDimension, widthInPx)
+	img, err := identiconObj.Make(artifactDimension, widthInPx)
 	if err != nil {
 		ExitIfErr(fmt.Errorf("fialed to make identicon: %v", err))
 	}
@@ -53,19 +52,17 @@ func main() {
 func getCliArgs() (
 	identifier string,
 	output *os.File,
-	artifactDimension ydenticon.ArtifactDimension,
+	artifactDimension godenticon.ArtifactDimension,
 	widthInPx uint,
 ) {
 	usage := `Ydention generates a unique avatar ("Identicon") based on a given unique string identifier.
 
 Usage:
-  ydenticon <identifier> [--complexity=<level>] [--width=<widthInPx>] [(--output=<filePathAndName> [--overwriteExistingFile])]
-  ydenticon -h | --help
-  ydenticon --version
+  godenticon <identifier> [--complexity=<level>] [--width=<widthInPx>] [(--output=<filePathAndName> [--overwriteExistingFile])]
+  godenticon -h | --help
 
 Options:
   -h --help                                Show this screen.
-  -v --version                             Show version.
   -o, --output=<filePathAndName>           Path and file name of output file [default: <STDOUT>].
   -f, --overwriteExistingFile              Overwrite target file if exists [default: false]
   -c, --complexity=<level>                 Result's level of complexity ( 1 | 2 | 3 | 4 | 5 ) [default: 3].
@@ -95,7 +92,7 @@ Options:
 	log.Debugf("Found 'complexity' %d", complexityInt)
 
 	log.Debug("Converting complexity level to image dimensions")
-	artifactDimension, err = ydenticon.GetComplexityLevel(complexityInt)
+	artifactDimension, err = godenticon.GetComplexityLevel(complexityInt)
 	ExitIfErr(err)
 	log.Debugf(
 		"Computed Artifact Dimensions from Complexity Level %d: %dx%d artifacts",
